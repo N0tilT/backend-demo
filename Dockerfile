@@ -7,5 +7,6 @@ RUN mvn clean install
 FROM docker.io/eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
+COPY --from=build /app/src/main/java/com/example/demo/helpers/templates /app
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "demo.jar"]
