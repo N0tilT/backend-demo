@@ -7,13 +7,13 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      database:
+      postgres:
         condition: 'service_healthy'
     networks:
       - 'inner'
       - 'outer'
       
-  database:
+  postgres:
     container_name: 'database'
     build:
       context: '../alakom-db'
