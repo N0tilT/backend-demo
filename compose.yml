@@ -18,13 +18,11 @@ services:
       context: '../alakom-db'
       dockerfile: 'Dockerfile'
     healthcheck:
-      test: ['CMD', 'psql', '-U', 'postgres', '-W', '1', '-d', 'Cafedral', '-c', 'SELECT 1']
+      test: ['CMD', 'sh', '-c', 'pg_restore --verbose --clean --no-acl --no-owner -d Cafedral ../alakom-db/new.sql']
       start_period: '5s'
       interval: '2s'
       timeout: '10s'
       retries: 10
-    post_start:
-        - sh -c "pg_restore --verbose --clean --no-acl --no-owner -d Cafedral ../alakom-db/new.sql"
     ports:
       - '5432:5432'
     volumes:
