@@ -24,12 +24,10 @@ services:
       interval: '2s'
       timeout: '10s'
       retries: 10
-    post_start:
-        - sh -c "pg_restore --verbose --clean --no-acl --no-owner -d Cafedral ../alakom-db/new.sql"
     ports:
       - '5432:5432'
     volumes:
-      - 'data:/var/lib/psql'
+      - 'data:/var/lib/postgresql/data'
     networks:
       - 'inner'
 
