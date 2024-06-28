@@ -1,0 +1,48 @@
+services:
+  client:
+    container_name: 'client'
+    build:
+      context: '../frontend'
+      dockerfile: 'Dockerfile'
+    ports:
+      - '3000:3000'
+    networks:
+      - 'outer'
+      
+  server:
+    container_name: 'server'
+    build:
+      context: './'
+      dockerfile: 'Dockerfile'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'postgres'
+    networks:
+      - 'inner'
+      - 'outer'
+      
+  postgres:
+    container_name: 'database'
+    build:
+      context: '../alakom-db'
+      dockerfile: 'Dockerfile'
+    healthcheck:
+      test: ['CMD', 'psql', '-U', 'postgres', '-W', '1', '-d', 'Cafedral', '-c', 'SELECT 1']
+      start_period: '5s'
+      interval: '2s'
+      timeout: '10s'
+      retries: 10
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'data:/var/lib/psql'
+    networks:
+      - 'inner'
+
+volumes:
+  data:
+      
+networks:
+  inner:
+  outer:
