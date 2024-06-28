@@ -1,14 +1,4 @@
 services:
-  client:
-    container_name: 'client'
-    build:
-      context: '../frontend'
-      dockerfile: 'Dockerfile'
-    ports:
-      - '3000:3000'
-    networks:
-      - 'outer'
-      
   server:
     container_name: 'server'
     build:
